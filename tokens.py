@@ -28,5 +28,5 @@ class EtherscanToken(EtherscanAPI):
         raise NotImplementedError("This api requires PRO!")
 
 if __name__ == "__main__":
-    api = EtherscanToken("key.json")
+    api = EtherscanToken("key.json", "kovan")
     print(api.get_erc20_token_total_supply_by_contract_address("0x57d90b64a1a57749b0f932f1a3395792e12e7055"))

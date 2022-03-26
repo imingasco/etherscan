@@ -29,5 +29,5 @@ class EtherscanGasTracker(EtherscanAPI):
         raise NotImplementedError("This api requires PRO!")
 
 if __name__ == "__main__":
-    api = EtherscanGasTracker("key.json", "mainnet")
+    api = EtherscanGasTracker("key.json", "kovan")
     print(api.estimate_confirmation_time(30000000000))

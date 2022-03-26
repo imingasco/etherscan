@@ -61,5 +61,5 @@ class EtherscanStat(EtherscanAPI):
         raise NotImplementedError("This api requires PRO!")
 
 if __name__ == "__main__":
-    api = EtherscanStat("key.json")
-    print(api.get_number_of_nodes())
+    api = EtherscanStat("key.json", "kovan")
+    print(api.get_ether_total_supply())

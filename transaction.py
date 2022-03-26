@@ -21,5 +21,5 @@ class EtherscanTransaction(EtherscanAPI):
         return None
 
 if __name__ == "__main__":
-    api = EtherscanTransaction("key.json")
+    api = EtherscanTransaction("key.json", "kovan")
     print(api.get_contract_execution_status("0x15f8e5ea1079d9a0bb04a4c58ae5fe7654b5b2b4463375ff7ffb490aa0032f3a"))
