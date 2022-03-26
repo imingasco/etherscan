@@ -60,13 +60,13 @@ class EtherscanAccount(EtherscanAPI):
         params = {"action": "balance", "address": address, "tag": "latest"}
         params.update(self.common_params)
         r = self.get(params, **kwargs)
-        return int(r.json()["result"]) // 10 ** 18 if r != None else None
+        return int(r.json()["result"]) / 10 ** 18 if r != None else None
 
     def get_addresses_balance(self, addresses: list, **kwargs):
         params = {"action": "balancemulti", "tag": "latest", "address": ",".join(addresses)}
         params.update(self.common_params)
         r = self.get(params, **kwargs)
-        return {result["account"]: int(result["balance"]) // 10 ** 18 for result in r.json()["result"]} if r != None else None
+        return {result["account"]: int(result["balance"]) / 10 ** 18 for result in r.json()["result"]} if r != None else None
 
     def get_address_normal_transaction(self, address, **kwargs):
         params = {"action": "txlist", "address": address, "startblock": 0, "endblock": 99999999, "page": 1, "offset": 10, "sort": "asc"}
