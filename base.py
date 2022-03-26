@@ -1,33 +1,35 @@
 from typing import *
 import requests
+import http3
 
 
 class API:
     def __init__(self):
-        self.session = requests.Session()
+        self.headers = {}
+        self.cookies = {}
 
     def get(self, url: str, params: dict={}, **kwargs) -> requests.Response:
         param_str = "&".join([f"{k}={v}" for k, v in params.items()])
         url = (url + "?" + param_str).strip("?")
-        r = self.session.get(url, **kwargs)
+        r = http3.get(url, headers=self.headers, cookies=self.cookies, **kwargs)
         return r
 
     def post(self, url: str, params: dict={}, **kwargs) -> requests.Response:
-        r = self.session.post(url, data=params, **kwargs)
+        r = http3.post(url, headers=self.headers, cookies=self.cookies, data=params, **kwargs)
         return r
-    
-    def add_header(self, key: str, value) -> None:
-        self.session.headers.update({key: value})
-    
-    def remove_header(self, key: str) -> None:
-        self.session.headers.pop(key, None)
-    
-    def add_cookies(self, key: str, value, **kwargs) -> None:
-        self.session.cookies.set(key, value, **kwargs)
-    
-    def delete_cookies(self, key: str) -> None:
-        del self.session.cookies[key]
 
+    def add_header(self, key, value):
+        self.headers[key] = value
+    
+    def remove_header(self, key):
+        self.headers.pop(key, None)
+    
+    def add_cookies(self, key, value):
+        self.cookies[key] = value
+
+    def remove_cookies(self, key):
+        self.cookies.pop(key, None)
+    
 if __name__ == "__main__":
     api = API()
     

@@ -1,9 +1,6 @@
 import json
-import socket
-import argparse
-import requests.packages.urllib3.util.connection as urllib3_connection
+import time
 from typing import *
-from urllib import request
 from base import API
 
 SERVER = {
@@ -14,14 +11,6 @@ SERVER = {
     "ropsten": "https://api-ropsten.etherscan.io/api"
 }
 
-def allowed_gai_family():
-    """
-     https://github.com/shazow/urllib3/blob/master/urllib3/util/connection.py
-    """
-    family = socket.AF_INET6 if urllib3_connection.HAS_IPV6 else socket.AF_INET
-    return family
-
-# urllib3_connection.allowed_gai_family = allowed_gai_family
 
 class EtherscanAPI(API):
     def __init__(self, file, net="mainnet"):
@@ -38,7 +27,7 @@ class EtherscanAPI(API):
     def get(self, params, **kwargs):
         r = super().get(self.server, params, **kwargs)
         if 400 <= r.status_code < 500:
-            with open(f".html", "w") as f:
+            with open(f"GET_{time.time()}.html", "w") as f:
                 f.write(r.text)
             return None
         return r
@@ -46,7 +35,7 @@ class EtherscanAPI(API):
     def post(self, params, **kwargs):
         r = super().post(self.server, params, **kwargs)
         if 400 <= r.status_code < 500:
-            with open(f".html", "w") as f:
+            with open(f"POST_{time.time()}.html", "w") as f:
                 f.write(r.text)
             return None
         return r
@@ -60,13 +49,13 @@ class EtherscanAccount(EtherscanAPI):
         params = {"action": "balance", "address": address, "tag": "latest"}
         params.update(self.common_params)
         r = self.get(params, **kwargs)
-        return int(r.json()["result"]) // 10 ** 18 if r != None else None
+        return int(r.json()["result"]) / 10 ** 18 if r != None else None
 
     def get_addresses_balance(self, addresses: list, **kwargs):
         params = {"action": "balancemulti", "tag": "latest", "address": ",".join(addresses)}
         params.update(self.common_params)
         r = self.get(params, **kwargs)
-        return {result["account"]: int(result["balance"]) // 10 ** 18 for result in r.json()["result"]} if r != None else None
+        return {result["account"]: int(result["balance"]) / 10 ** 18 for result in r.json()["result"]} if r != None else None
 
     def get_address_normal_transaction(self, address, **kwargs):
         params = {"action": "txlist", "address": address, "startblock": 0, "endblock": 99999999, "page": 1, "offset": 10, "sort": "asc"}
@@ -112,5 +101,5 @@ class EtherscanAccount(EtherscanAPI):
         raise NotImplementedError("This api requires PRO!")
 
 if __name__ == "__main__":
-    api = EtherscanAccount("key.json", "mainnet")
-    print(api.get_address_mined_block("0x9dd134d14d1e65f84b706d6f205cd5b1cd03a46b"))
+    api = EtherscanAccount("key.json", "kovan")
+    print(api.get_address_balance("0x1a96b417224F4bEf2C4708f04fa801Af9fAc6D45"))
