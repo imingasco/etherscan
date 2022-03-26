@@ -11,7 +11,10 @@ SERVER = {
     "ropsten": "https://api-ropsten.etherscan.io/api"
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e42a84 (Move account module out)
 class EtherscanAPI(API):
     def __init__(self, file, net="mainnet"):
         super().__init__()
@@ -39,6 +42,7 @@ class EtherscanAPI(API):
                 f.write(r.text)
             return None
         return r
+<<<<<<< HEAD
 
 class EtherscanAccount(EtherscanAPI):
     def __init__(self, file, net):
@@ -103,3 +107,5 @@ class EtherscanAccount(EtherscanAPI):
 if __name__ == "__main__":
     api = EtherscanAccount("key.json", "kovan")
     print(api.get_address_balance("0x1a96b417224F4bEf2C4708f04fa801Af9fAc6D45"))
+=======
+>>>>>>> 5e42a84 (Move account module out)

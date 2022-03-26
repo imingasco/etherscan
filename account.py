@@ -62,5 +62,5 @@ class EtherscanAccount(EtherscanAPI):
         raise NotImplementedError("This api requires PRO!")
 
 if __name__ == "__main__":
-    api = EtherscanAccount("key.json", "mainnet")
-    print(api.get_address_mined_block("0x9dd134d14d1e65f84b706d6f205cd5b1cd03a46b"))
+    api = EtherscanAccount("key.json", "kovan")
+    print(api.get_address_balance("0x1a96b417224F4bEf2C4708f04fa801Af9fAc6D45"))
