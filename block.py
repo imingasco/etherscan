@@ -39,3 +39,7 @@ class EtherscanBlock(EtherscanAPI):
 
     def get_daily_uncle_block_count_and_rewards(self, startdate, enddate, **kwargs):
         raise NotImplementedError("This api requires PRO!")
+
+if __name__ == "__main__":
+    api = EtherscanBlock("key.json", "kovan")
+    print(api.get_block_reward_and_uncle(30656000)[0])

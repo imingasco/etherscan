@@ -31,5 +31,5 @@ class EtherscanContract(EtherscanAPI):
         raise NotImplementedError("Implement later")
 
 if __name__ == "__main__":
-    api = EtherscanContract("key.json", "mainnet")
+    api = EtherscanContract("key.json", "kovan")
     print(api.get_source_of_verified_contract("0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413"))
